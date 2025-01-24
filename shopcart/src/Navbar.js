@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import { Home } from './Home'
 import { Cart } from './Cart'
+import { Login } from "./Login"
 
 export const Navbar = (props) => {
     return (
@@ -33,6 +34,7 @@ export const Navbar = (props) => {
                 </div>
             </header>
             <Routes>
+                <Route path="/checkout" element={<Login {...props} />} />
                 <Route path="/cart" element={<Cart {...props} />} />
                 <Route path="/" element={<Home {...props} />} />
             </Routes>

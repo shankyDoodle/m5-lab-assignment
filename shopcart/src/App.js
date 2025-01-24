@@ -7,7 +7,10 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      products: PRODUCTS
+      products: PRODUCTS,
+      login: false,
+      fbData: {},
+      fbPic: ''
     };
   }
 
@@ -22,10 +25,32 @@ class App extends Component {
     return this.state.products.reduce((total, product) => total + product.value, 0);
   };
 
+  setFbData = (fbData) => {
+    this.setState({ fbData })
+  }
+
+  setFbPic = (fbPic) => {
+    this.setState({ fbPic })
+  }
+
+  setLogin = (login) => {
+    this.setState({ login })
+  }
+
   render() {
     return (
       <div>
-        <Navbar products={this.state.products} handleQuantityChange={this.handleQuantityChange} getTotalItems={this.getTotalItems} />
+        <Navbar
+          products={this.state.products}
+          login={this.state.login}
+          fbData={this.state.fbData}
+          fbPic={this.state.fbPic}
+          handleQuantityChange={this.handleQuantityChange}
+          getTotalItems={this.getTotalItems}
+          setFbData={this.setFbData}
+          setFbPic={this.setFbPic}
+          setLogin={this.setLogin}
+        />
       </div>
     );
   }

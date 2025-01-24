@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { Card, CardBody, CardTitle, CardImg, Input, Form, FormGroup, Label, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const Product = ({ product, onQuantityChange, disabled }) => {
     const [isOpen, setIsOpen] = useState(false)
@@ -8,6 +10,16 @@ export const Product = ({ product, onQuantityChange, disabled }) => {
         const value = Math.max(0, parseInt(e.target.value) || 0);
         onQuantityChange(product.id, value);
     };
+
+    const handleQtyIncrease = () => {
+        onQuantityChange(product.id, product.value + 1);
+    }
+
+    const handleQtyDecrease = () => {
+        if (Number(product.value) === 0)
+            return
+        onQuantityChange(product.id, product.value - 1);
+    }
 
     const handleShow = () => setIsOpen(true)
     const onToggle = () => setIsOpen(!isOpen)
@@ -19,7 +31,18 @@ export const Product = ({ product, onQuantityChange, disabled }) => {
                 <CardBody className="d-flex justify-content-between align-items-center">
                     <CardTitle tag="h5">{product.desc}</CardTitle>
                     {disabled ? <Label>Quantity: {product.value}</Label> : <Form>
-                        <FormGroup className="d-flex align-items-center mt-3">
+                        <FormGroup className="d-flex align-items-center mt-3 gap-2">
+                            <FontAwesomeIcon
+                                className="fas fa-2x text-black border border-2"
+                                icon={faPlus}
+                                onClick={handleQtyIncrease}
+                            />
+                            <FontAwesomeIcon
+                                className="fas fa-2x text-black border border-2"
+                                icon={faMinus}
+                                disabled={Number(product.value) === 0}
+                                onClick={handleQtyDecrease}
+                            />
                             <Input
                                 type="number"
                                 value={product.value}
