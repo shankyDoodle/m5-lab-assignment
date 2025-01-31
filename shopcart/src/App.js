@@ -5,12 +5,13 @@ import { Navbar } from "./Navbar";
 
 class App extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       products: PRODUCTS,
       login: false,
       fbData: {},
-      fbPic: ''
+      fbPic: "",
+      sortOption: "normal",
     };
   }
 
@@ -22,20 +23,30 @@ class App extends Component {
   };
 
   getTotalItems = () => {
-    return this.state.products.reduce((total, product) => total + product.value, 0);
+    return this.state.products.reduce(
+      (total, product) => total + product.value,
+      0
+    );
   };
 
-  setFbData = (fbData) => {
-    this.setState({ fbData })
-  }
+  setFbData = (fbData) => this.setState({ fbData });
 
-  setFbPic = (fbPic) => {
-    this.setState({ fbPic })
-  }
+  setFbPic = (fbPic) => this.setState({ fbPic });
 
-  setLogin = (login) => {
-    this.setState({ login })
-  }
+  setLogin = (login) => this.setState({ login });
+
+  updateSortOption = (sortOption) => {
+    const productList = [...this.state.products];
+    productList.sort((a, b) => {
+      if (sortOption === "normal") {
+        return a.id - b.id;
+      }
+      const isReversed = sortOption === "lowest" ? 1 : -1;
+      return isReversed * (a.price - b.price);
+    });
+    this.setState({ products: productList });
+    this.setState({ sortOption });
+  };
 
   render() {
     return (
@@ -50,6 +61,7 @@ class App extends Component {
           setFbData={this.setFbData}
           setFbPic={this.setFbPic}
           setLogin={this.setLogin}
+          updateSortOption={this.updateSortOption}
         />
       </div>
     );
